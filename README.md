@@ -52,7 +52,7 @@ docker-compose up -d
 
 ---
 
-### 3. Inicializar o Banco de Dados do Airflow
+### 3. Inicializar o Banco de Dados do Airflow (! Apenas novas instalações)
 
 ```bash
 docker exec -it airflow-webserver airflow db init
@@ -62,7 +62,7 @@ docker exec -it airflow-webserver airflow db init
 
 ---
 
-### 4. Criar Usuário Admin no Airflow
+### 4. Criar Usuário Admin no Airflow (! Apenas novas instalações)
 
 Via CLI:
 
