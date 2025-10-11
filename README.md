@@ -128,3 +128,26 @@ Com essa implantação:
 - MinIO está disponível como armazenamento S3 local
 - PostgreSQL está persistindo os metadados e acessível via terminal ou cliente gráfico
 - Todos os serviços estão integrados e prontos para produção ou desenvolvimento local
+
+### Configurando o Airflow para conectar no MinIO
+
+## 🔗 Conexão Airflow com MinIO (`minio_conn`)
+
+Para que o Airflow consiga enviar arquivos para o MinIO usando `S3Hook`, é necessário configurar uma conexão do tipo **Amazon S3** com os seguintes parâmetros:
+
+### 📋 Detalhes da conexão
+
+- **Conn Id**: `minio_conn`
+- **Conn Type**: `Amazon S3`
+- **Login**: `minioadmin` *(Access Key do MinIO)*
+- **Password**: `minioadmin` *(Secret Key do MinIO)*
+
+### ⚙️ Campo Extra (JSON)
+
+```json
+{
+  "host": "http://minio:9000",
+  "port": 9000,
+  "secure": false
+}
+```
