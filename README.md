@@ -53,6 +53,12 @@ docker-compose up -d
 
 ---
 
+### 2.1 Passo opcional de verificação
+```bash
+docker exec -it airflow-webserver airflow dags list
+
+```
+
 ### 3. Inicializar o Banco de Dados do Airflow (! Apenas novas instalações)
 
 ```bash
