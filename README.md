@@ -30,7 +30,7 @@ airflow-spark-minio-postgres/
 
 ```bash
 git clone https://github.com/paulomnasc/datalake-air-flow.git
-cd airflow-spark-minio-postgres
+cd datalake-air-flow
 ```
 
 > Substitua o link acima pelo repositório real, se necessário.
