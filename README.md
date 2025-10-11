@@ -138,7 +138,7 @@ Para que o Airflow consiga enviar arquivos para o MinIO usando `S3Hook`, é nece
 ### 📋 Detalhes da conexão
 
 - **Conn Id**: `minio_conn`
-- **Conn Type**: `Amazon S3`
+- **Conn Type**: `Amazon Web Serices`
 - **Login**: `minioadmin` *(Access Key do MinIO)*
 - **Password**: `minioadmin` *(Secret Key do MinIO)*
 
