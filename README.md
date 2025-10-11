@@ -29,7 +29,7 @@ airflow-spark-minio-postgres/
 ### 1. Clonar o Projeto
 
 ```bash
-git clone https://github.com/datalake-air-flow
+git clone https://github.com/paulomnasc/datalake-air-flow.git
 cd airflow-spark-minio-postgres
 ```
 
