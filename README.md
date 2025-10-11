@@ -40,6 +40,7 @@ cd datalake-air-flow
 ### 2. Build e Inicialização dos Containers
 
 ```bash
+chmod +x entrypoint.sh
 docker-compose down --remove-orphans
 docker-compose build
 docker-compose up -d
