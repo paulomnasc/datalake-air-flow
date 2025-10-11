@@ -40,7 +40,7 @@ cd airflow-spark-minio-postgres
 ### 2. Build e Inicialização dos Containers
 
 ```bash
-docker-compose down --volumes --remove-orphans
+docker-compose down --remove-orphans
 docker-compose build
 docker-compose up -d
 ```
