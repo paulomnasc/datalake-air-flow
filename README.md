@@ -111,8 +111,8 @@ Ou via DAG já incluída no projeto.
 | Serviço             | Endereço de Acesso                     | Porta | Usuário / Senha           | Banco de Dados     | Observações                          |
 |---------------------|----------------------------------------|-------|----------------------------|--------------------|--------------------------------------|
 | **Airflow UI**      | [http://localhost:8085](http://localhost:8085) | 8085  | `admin` / `admin`          | —                  | Criado após `airflow db init` e `users create` |
-| **MinIO Console**   | [http://localhost:9001](http://localhost:9001) | 9001  | `minioadmin` / `minioadmin`| —                  | Interface web de armazenamento S3   |
-| **MinIO API S3**    | `http://localhost:9000`                | 9000  | `minioadmin` / `minioadmin`| —                  | Usado por boto3, S3Hook, etc.        |
+| **MinIO Console**   | [http://localhost:9001](http://localhost:9001) | 9001  | `admin` / `admin123`| —                  | Interface web de armazenamento S3   |
+| **MinIO API S3**    | `http://localhost:9000`                | 9000  | `admin` / `admin123`| —                  | Usado por boto3, S3Hook, etc.        |
 | **PostgreSQL**      | via cliente externo ou terminal        | 5432  | `airflow` / `airflow`      | `airflow`          | Banco de metadados do Airflow        |
 
 ---
