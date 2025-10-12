@@ -10,6 +10,25 @@ A base foi clonada do repositório do Adriano e adaptada para incluir os três s
 
 ---
 
+## Configuração mínima de hardware
+
+Os requisitos mínimos de hardware para um Apache Airflow básico são de 10GB de HD, 4GB de RAM e 2 CPUs. 
+
+É importante notar que, para uma implantação em produção, pode ser necessário mais hardware, dependendo da carga de trabalho, e que o Airflow também pode rodar em ambientes como Kubernetes ou nuvem, com requisitos que variam de acordo com a plataforma escolhida. 
+Requisitos mínimos (para ambientes de teste/desenvolvimento):
+
+Disco: 10 GB de HD.
+Memória: 4 GB de RAM.
+Processador (CPU): 2 CPUs (ou VCPUs). 
+Requisitos recomendados e considerações adicionais:
+Banco de dados: O Airflow precisa de um banco de dados de metadados para funcionar. 
+É recomendado um banco de dados como PostgreSQL ou MySQL. 
+
+Ambiente virtual: Para evitar conflitos de dependências, é altamente recomendável usar um ambiente virtual (como o venv ou conda). 
+Sistema operacional: Embora o Airflow possa ser instalado em Windows, ele funciona melhor em um ambiente tipo Unix, como o Linux, que pode ser executado nativamente ou através do Subsistema do Windows para Linux (WSL). 
+
+Ambientes de nuvem: Se for usar serviços como Amazon MWAA, os requisitos de hardware são variáveis e o pagamento é por uso. Os custos e recursos dependem do nível de uso. 
+
 ## 📁 Estrutura do Projeto
 
 ```
