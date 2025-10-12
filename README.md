@@ -161,3 +161,49 @@ Se for necessário, reinicie o Airflow:
 ```bash
 docker restart airflow-webserver
 ```
+**O comando mais direto para verificar se o Airflow carregou totalmente é:**
+
+```bash
+docker logs <nome_do_container_airflow>
+```
+
+Por exemplo, se estiver usando Docker Compose e seu serviço se chama `airflow`, você pode usar:
+
+```bash
+docker logs datalake-local_airflow_1
+```
+
+---
+
+### 🧩 O que procurar nos logs
+
+Você saberá que o Airflow carregou com sucesso quando encontrar mensagens como:
+
+```
+Scheduler started...
+Starting webserver at http://0.0.0.0:8080
+```
+
+Essas mensagens indicam que tanto o *scheduler* quanto o *webserver* estão ativos e prontos.
+
+---
+
+### ✅ Alternativas úteis
+
+Se estiver usando o Airflow fora de containers, você pode verificar com:
+
+```bash
+airflow webserver
+```
+
+ou
+
+```bash
+airflow scheduler
+```
+
+E observar no terminal se os serviços iniciam sem erros.
+
+---
+
+Se quiser, posso sugerir um script que aguarde automaticamente até que o Airflow esteja pronto antes de continuar com outras tarefas. Deseja isso?
