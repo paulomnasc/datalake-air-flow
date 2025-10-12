@@ -227,5 +227,5 @@ E observar no terminal se os serviços iniciam sem erros.
 Navegar um recurso com interface amigável 
 
 ```bash
-aws --endpoint-url http://localhost:9000 s3 ls s3://lab01/processed/raw/
+mc ls local/lab01/processed/raw/
 ```
