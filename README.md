@@ -222,7 +222,10 @@ airflow scheduler
 ```
 
 E observar no terminal se os serviços iniciam sem erros.
-
 ---
 
-Se quiser, posso sugerir um script que aguarde automaticamente até que o Airflow esteja pronto antes de continuar com outras tarefas. Deseja isso?
+Navegar um recurso com interface amigável 
+
+```bash
+aws --endpoint-url http://localhost:9000 s3 ls s3://lab01/processed/raw/
+```
