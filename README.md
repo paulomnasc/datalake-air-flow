@@ -151,3 +151,13 @@ Para que o Airflow consiga enviar arquivos para o MinIO usando `S3Hook`, é nece
   "secure": false
 }
 ```
+
+### Utilidades
+
+### ✅ 6. Reiniciar o Airflow
+
+Se for necessário, reinicie o Airflow:
+
+```bash
+docker restart airflow-webserver
+```
