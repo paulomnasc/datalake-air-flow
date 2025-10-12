@@ -1,6 +1,4 @@
-Entendido. O texto original é um *bug report* formatado em Markdown, mas a observação final ("Se quiser, posso te ajudar a transformar isso...") está em texto puro.
 
-Abaixo está o texto **inteiro** transformado em um formato de *bug report* totalmente compatível com Markdown, garantindo que não haja texto puro e que a estrutura seja ideal para o GitHub:
 
 ```markdown
 # 🐞 Bug Report: `FileNotFoundError` ao acessar arquivo JSON em DAG do Airflow
