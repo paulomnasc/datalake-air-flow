@@ -27,6 +27,7 @@ services:
       - AIRFLOW__WEBSERVER__BASE_URL=http://localhost:8080
     volumes:
       - ./src/dags:/opt/airflow/dags
+      - ./airflow.cfg:/opt/airflow/airflow.cfg
     ports:
       - "8085:8080"
     command: airflow webserver
