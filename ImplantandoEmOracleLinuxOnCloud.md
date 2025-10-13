@@ -100,9 +100,51 @@ cat /etc/os-release
 - [Instalação via ORACLE-BASE](https://oracle-base.com/articles/linux/docker-install-docker-on-oracle-linux-ol8)
 - [Guia Collabnix](https://collabnix.com/how-to-install-docker-on-oracle-linux-a-step-by-step-guide/)
 
+Isso significa que o **Docker Compose não está instalado** na sua máquina Oracle Linux. Vamos resolver isso rapidinho! 🚀
+
 ---
 
-> 💬 Se quiser testar com um container ou instalar o Docker Compose, posso te ajudar!
+## 🛠️ Como instalar o Docker Compose no Oracle Linux
+
+### ✅ Passo 1: Verifique a versão mais recente
+```bash
+sudo curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name
 ```
 
-Se quiser que eu gere esse conteúdo como arquivo para download, é só me avisar!
+Isso vai mostrar algo como `"tag_name": "v2.24.1"` — copie esse número.
+
+### ✅ Passo 2: Baixe o binário do Docker Compose
+Substitua `v2.24.1` pela versão mais recente que você encontrou:
+
+```bash
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+```
+
+### ✅ Passo 3: Dê permissão de execução
+```bash
+sudo chmod +x /usr/local/bin/docker-compose
+```
+
+### ✅ Passo 4: Verifique se funcionou
+```bash
+docker-compose --version
+```
+
+Você deve ver algo como:
+
+```bash
+Docker Compose version v2.24.1
+```
+
+---
+
+## 💡 Dica extra: Autocompletar no terminal (opcional)
+
+```bash
+sudo curl -L https://raw.githubusercontent.com/docker/compose/v2.24.1/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
+```
+
+---
+
+Se quiser, posso te ajudar a configurar o `docker-compose.yml` ou subir seu projeto com containers. Só dizer!
+
