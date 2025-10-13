@@ -146,5 +146,43 @@ sudo curl -L https://raw.githubusercontent.com/docker/compose/v2.24.1/contrib/co
 
 ---
 
-Se quiser, posso te ajudar a configurar o `docker-compose.yml` ou subir seu projeto com containers. Só dizer!
+Esse erro indica que o usuário `opc` **não tem permissão para acessar o Docker daemon**, que é necessário para executar comandos como `docker-compose build`. Vamos resolver isso com um ajuste simples:
 
+---
+
+## ✅ Solução: Adicionar o usuário `opc` ao grupo `docker`
+
+### 1. Execute este comando:
+```bash
+sudo usermod -aG docker opc
+```
+
+> Isso adiciona o usuário `opc` ao grupo `docker`, permitindo que ele execute comandos Docker sem precisar de `sudo`.
+
+---
+
+### 2. **Importante**: Faça logout e login novamente
+
+Para que a mudança de grupo tenha efeito, você precisa **encerrar a sessão SSH e reconectar**.
+
+---
+
+### 3. Verifique se funcionou
+
+Depois de reconectar, execute:
+
+```bash
+docker ps
+```
+
+Se não aparecer erro de permissão, está tudo certo! Agora você pode rodar:
+
+```bash
+docker-compose build
+```
+
+---
+
+## 🔍 Sobre o aviso `version is obsolete`
+
+Esse é só um alerta informativo. O Docker Compose v2 não exige mais o campo `version:` no `docker-compose.yml`. Você pode remover essa linha para evitar o aviso, mas ele **não impede o funcionamento**.
