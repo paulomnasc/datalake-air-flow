@@ -186,3 +186,55 @@ docker-compose build
 ## 🔍 Sobre o aviso `version is obsolete`
 
 Esse é só um alerta informativo. O Docker Compose v2 não exige mais o campo `version:` no `docker-compose.yml`. Você pode remover essa linha para evitar o aviso, mas ele **não impede o funcionamento**.
+
+
+### Configurando regra de entrada para acessar os componentes via navegador
+Ótimo, Cristiane — isso mostra que sua **tabela de rotas está correta** e permite que a instância acesse a internet via o **Internet Gateway**. Agora o que está faltando é liberar a **porta 8085 nas regras de segurança** (Security List), que são separadas da rota.
+
+Vamos direto ao ponto:
+
+---
+
+## ✅ Como liberar a porta 8085 na Oracle Cloud (Security List)
+
+### 1. No Console da Oracle Cloud:
+- Vá para **"Networking" > "Virtual Cloud Networks" (VCNs)**.
+- Clique no VCN chamado **`vcn-airflow-pub`**.
+
+### 2. Na página do VCN:
+- Clique em **"Security Lists"** no menu lateral.
+- Deve haver uma lista chamada algo como **"Default Security List for vcn-airflow-pub"** — clique nela.
+
+### 3. Adicione uma nova regra de entrada (Ingress Rule):
+- Clique em **"Add Ingress Rules"**.
+- Preencha assim:
+
+  | Campo                | Valor                     |
+  |----------------------|---------------------------|
+  | **Source Type**      | CIDR                      |
+  | **Source CIDR**      | `0.0.0.0/0`               |
+  | **IP Protocol**      | TCP                       |
+  | **Destination Port Range** | `8085`             |
+  | **Stateless**        | Deixe desmarcado          |
+
+- Clique em **"Add Ingress Rules"** para salvar.
+
+---
+
+## 🔁 Agora teste novamente
+
+Depois de adicionar a regra, volte ao seu navegador e tente acessar:
+
+```
+http://137.131.212.68:8085
+```
+
+Se tudo estiver certo, a página deve carregar 🎉
+
+---
+
+Se ainda não funcionar, posso te ajudar a:
+- Verificar se o container está escutando em `0.0.0.0`
+- Confirmar se o `docker-compose.yml` está expondo a porta corretamente
+- Testar com `curl` de fora da instância
+
