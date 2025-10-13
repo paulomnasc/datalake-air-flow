@@ -6,6 +6,13 @@ import json
 import os
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 
+
+
+BUCKET = 'lab01'
+RAW_PREFIX = 'processed/raw/'
+TRUSTED_PREFIX = 'processed/trusted/'
+
+
 # Configurações do MinIO
 # 1. Instanciar o Hook, referenciando o ID de conexão que você configurou
 s3_hook = S3Hook(aws_conn_id='minio_conn')
@@ -16,9 +23,6 @@ s3_client = s3_hook.get_conn()
 # 3. Usar o client (agora configurado com "http://minio:9000")
 response = s3_client.list_objects_v2(Bucket=BUCKET, Prefix=RAW_PREFIX)
 
-BUCKET = 'lab01'
-RAW_PREFIX = 'processed/raw/'
-TRUSTED_PREFIX = 'processed/trusted/'
 
 def validar_e_mover():
     response = s3.list_objects_v2(Bucket=BUCKET, Prefix=RAW_PREFIX)
