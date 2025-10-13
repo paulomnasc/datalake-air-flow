@@ -1,31 +1,35 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
-import boto3
 import json
 import os
-from airflow.providers.amazon.aws.hooks.s3 import S3Hook
+from airflow.providers.amazon.aws.hooks.s3 import S3Hook # Import necessário
 
-
-
+# ====================================================================
+# CORREÇÃO 1: Definir as variáveis antes de qualquer código que as use.
+# ====================================================================
 BUCKET = 'lab01'
 RAW_PREFIX = 'processed/raw/'
 TRUSTED_PREFIX = 'processed/trusted/'
 
-
-# Configurações do MinIO
-# 1. Instanciar o Hook, referenciando o ID de conexão que você configurou
+# ====================================================================
+# HOOK E CLIENT S3 (Definidos no escopo global para acesso pela função)
+# ====================================================================
 s3_hook = S3Hook(aws_conn_id='minio_conn')
+s3_client = s3_hook.get_conn() # s3_client é o cliente correto
 
-# 2. Obter o Boto3 client configurado pelo Hook
-s3_client = s3_hook.get_conn() 
-
-# 3. Usar o client (agora configurado com "http://minio:9000")
-response = s3_client.list_objects_v2(Bucket=BUCKET, Prefix=RAW_PREFIX)
-
+# ====================================================================
+# CORREÇÃO 2: Removida a chamada 'response = s3_client.list_objects_v2(...)' 
+# do escopo global para evitar o erro Broken DAG.
+# ====================================================================
 
 def validar_e_mover():
-    response = s3.list_objects_v2(Bucket=BUCKET, Prefix=RAW_PREFIX)
+    # ====================================================================
+    # CORREÇÃO 3: Usar o cliente CORRETO (s3_client) em toda a função.
+    # ====================================================================
+    
+    # 1. Listar objetos
+    response = s3_client.list_objects_v2(Bucket=BUCKET, Prefix=RAW_PREFIX)
     arquivos = response.get('Contents', [])
 
     for obj in arquivos:
@@ -35,7 +39,7 @@ def validar_e_mover():
 
         # Baixar o arquivo temporariamente
         local_file = '/tmp/temp.json'
-        s3.download_file(BUCKET, key, local_file)
+        s3_client.download_file(BUCKET, key, local_file) # Usando s3_client
 
         # Validar JSON
         try:
@@ -51,9 +55,9 @@ def validar_e_mover():
         new_key = f"{TRUSTED_PREFIX}{base_name}_{timestamp}.json"
 
         # Copiar para zona trusted
-        s3.copy_object(Bucket=BUCKET, CopySource=f"{BUCKET}/{key}", Key=new_key)
-        s3.delete_object(Bucket=BUCKET, Key=key)
-        print(f"Movido para trusted: {new_key}")
+        s3_client.copy_object(Bucket=BUCKET, CopySource=f"{BUCKET}/{key}", Key=new_key) # Usando s3_client
+        # s3_client.delete_object(Bucket=BUCKET, Key=key) # Usando s3_client
+        print(f"Copiado para trusted: {new_key}")
 
 default_args = {
     'start_date': datetime(2023, 1, 1),
