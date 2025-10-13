@@ -4,14 +4,17 @@ from datetime import datetime
 import boto3
 import json
 import os
+from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 
 # Configurações do MinIO
-s3 = boto3.client(
-    's3',
-    endpoint_url='http://localhost:9000',
-    aws_access_key_id='minioadmin',
-    aws_secret_access_key='minioadmin'
-)
+# 1. Instanciar o Hook, referenciando o ID de conexão que você configurou
+s3_hook = S3Hook(aws_conn_id='minio_conn')
+
+# 2. Obter o Boto3 client configurado pelo Hook
+s3_client = s3_hook.get_conn() 
+
+# 3. Usar o client (agora configurado com "http://minio:9000")
+response = s3_client.list_objects_v2(Bucket=BUCKET, Prefix=RAW_PREFIX)
 
 BUCKET = 'lab01'
 RAW_PREFIX = 'processed/raw/'
