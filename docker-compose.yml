@@ -44,6 +44,8 @@ services:
     ports:
       - "8085:8080"
     command: airflow webserver
+    networks:
+      - airflow_net
     
   airflow-scheduler:
     build: .
@@ -58,6 +60,9 @@ services:
     volumes:
       - ./src/dags:/opt/airflow/dags
     command: airflow scheduler
+    networks:
+      - airflow_net
+      
   minio:
     image: minio/minio:latest
     environment:
@@ -69,6 +74,8 @@ services:
       - "9001:9001"
     volumes:
       - ./data:/data
+    networks:
+      - airflow_net
 
 networks:
   airflow_net:

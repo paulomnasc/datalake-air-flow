@@ -1,5 +1,6 @@
 # Ignorar arquivos e pastas específicas
 *.log
+*.bkp
 *.meta
 temp/
 build/
