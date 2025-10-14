@@ -72,7 +72,7 @@ docker-compose up -d
 
 ---
 
-### 2.1 Passo opcional de verificação
+### 2.1 Passo opcional de verificação se o Airflow está Up (opercional)
 ```bash
 docker exec -it airflow-webserver airflow dags list
 
