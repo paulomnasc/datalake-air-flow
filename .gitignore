@@ -1,12 +1,6 @@
 # Ignorar arquivos e pastas específicas
 *.log
-<<<<<<< HEAD
-<<<<<<< HEAD
 *.bkp
-=======
->>>>>>> 767b0596a2934a9d646a4b1dd71b78934fc191d6
-=======
->>>>>>> 767b0596a2934a9d646a4b1dd71b78934fc191d6
 *.meta
 temp/
 build/
@@ -28,3 +22,4 @@ Thumbs.db
 #.vscode/
 
 
+data/.minio.sys/
