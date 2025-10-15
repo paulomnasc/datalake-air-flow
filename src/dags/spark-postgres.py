@@ -1,9 +1,9 @@
 import os
 from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
-from airflow.contrib.operators.spark_submit_operator import SparkSubmitOperator
 from datetime import datetime, timedelta
-
+from airflow.operators.bash import BashOperator
+from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
 ###############################################
 # Parameters
 ###############################################
