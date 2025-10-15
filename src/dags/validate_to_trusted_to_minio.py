@@ -26,6 +26,9 @@ def tratar_e_mover():
     response = s3_client.list_objects_v2(Bucket=BUCKET, Prefix=RAW_PREFIX)
     arquivos = response.get('Contents', [])
 
+    # ✅ Gerar o timestamp uma única vez por execução
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+
     for obj in arquivos:
         key = obj['Key']
         if not key.endswith('.csv'):
@@ -36,7 +39,7 @@ def tratar_e_mover():
         csv_data = csv_obj['Body'].read().decode('utf-8')
         df = pd.read_csv(io.StringIO(csv_data))
 
-        # 🔹 Tratamento simples: padronização de colunas e remoção de duplicatas
+        # Tratamento simples: padronização de colunas e remoção de duplicatas
         df.columns = [col.strip().lower() for col in df.columns]
         df.drop_duplicates(inplace=True)
 
@@ -44,8 +47,7 @@ def tratar_e_mover():
         parquet_buffer = io.BytesIO()
         df.to_parquet(parquet_buffer, index=False)
 
-        # Gerar novo nome com timestamp
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        # Gerar novo nome com timestamp fixo
         base_name = os.path.basename(key).replace('.csv', '')
         new_key = f"{TRUSTED_PREFIX}{base_name}_{timestamp}.parquet"
 
