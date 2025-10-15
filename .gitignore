@@ -11,6 +11,7 @@ uploads/backup/
 lixo/
 tests/
 copia/
+data/.minio.sys/
 
 # Ignorar dependências de projetos Node.js
 node_modules/

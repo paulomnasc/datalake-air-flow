@@ -27,8 +27,6 @@ services:
       - mysql_data:/var/lib/mysql
     networks:
       - airflow_net
-      - postgres_data:/var/lib/postgresql/data
-
   airflow-webserver:
     build: .
     container_name: airflow-webserver
@@ -43,7 +41,7 @@ services:
       - AIRFLOW__WEBSERVER__BASE_URL=http://localhost:8080
     volumes:
       - ./src/dags:/opt/airflow/dags
-      - ./airflow.cfg:/opt/airflow/airflow.cfg
+      #- ./airflow.cfg:/opt/airflow/airflow.cfg
     ports:
       - "8085:8080"
     command: airflow webserver
@@ -77,7 +75,6 @@ services:
       - "9001:9001"
     volumes:
       - ./data:/data
-<<<<<<< HEAD
     networks:
       - airflow_net
 
