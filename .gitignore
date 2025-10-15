@@ -1,9 +1,7 @@
 # Ignorar arquivos e pastas específicas
 *.log
-<<<<<<< HEAD
+*.tmp
 *.bkp
-=======
->>>>>>> 1b081e9697bdc8aeef5e3446396fec2ba9d4eed5
 *.meta
 temp/
 build/
@@ -25,7 +23,6 @@ Thumbs.db
 #.vscode/
 
 
-<<<<<<< HEAD
+# Ignorar arquivos de configuração do JetBrains IDEs
 data/.minio.sys/
-=======
->>>>>>> 1b081e9697bdc8aeef5e3446396fec2ba9d4eed5
+
