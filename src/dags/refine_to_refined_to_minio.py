@@ -9,8 +9,8 @@ from datetime import datetime
 # VARIÁVEIS DE CONFIGURAÇÃO
 # ====================================================================
 BUCKET = 'lab01'
-TRUSTED_KEY = 'processed/trusted/customers.parquet'
-REFINED_KEY = 'processed/refined/customers_refined.parquet'
+TRUSTED_PREFIX = 'processed/trusted/customers_'
+REFINED_PREFIX = 'processed/refined/customers_'
 
 # ====================================================================
 # FUNÇÃO DE REFINAMENTO
@@ -19,51 +19,68 @@ def refinar_customers():
     s3_hook = S3Hook(aws_conn_id='minio_conn')
     s3_client = s3_hook.get_conn()
 
-    # 🔹 1. Carregar dados da zona trusted
-    obj = s3_client.get_object(Bucket=BUCKET, Key=TRUSTED_KEY)
-    df = pd.read_parquet(io.BytesIO(obj['Body'].read()))
+    # 🔹 1. Listar arquivos trusted e refined
+    trusted_objs = s3_client.list_objects_v2(Bucket=BUCKET, Prefix=TRUSTED_PREFIX).get('Contents', [])
+    refined_objs = s3_client.list_objects_v2(Bucket=BUCKET, Prefix=REFINED_PREFIX).get('Contents', [])
 
-    # 🔹 2. Preenchimento de dados faltantes
-    df['creditLimit'] = df['creditLimit'].fillna(0)
-    df['state'] = df['state'].fillna('N/A')
-    df['salesRepEmployeeNumber'] = df['salesRepEmployeeNumber'].fillna(0)
+    trusted_keys = [obj['Key'] for obj in trusted_objs if obj['Key'].endswith('.parquet')]
+    refined_keys = [obj['Key'] for obj in refined_objs if obj['Key'].endswith('.parquet')]
 
-    # 🔹 3. Colunas derivadas
-    df['nome_completo'] = df['contactFirstName'].str.strip() + ' ' + df['contactLastName'].str.strip()
-    df['valor_cliente'] = df['creditLimit']
+    # 🔹 2. Identificar arquivos pendentes
+    pendentes = [key for key in trusted_keys if key.replace('trusted', 'refined') not in refined_keys]
 
-    # 🔹 4. Segmentação por faixa de crédito
-    df['faixa_credito'] = pd.cut(
-        df['valor_cliente'],
-        bins=[-1, 50000, 100000, 150000, float('inf')],
-        labels=['Baixo', 'Médio', 'Alto', 'Premium']
-    )
+    if not pendentes:
+        print("✅ Nenhum arquivo pendente para refinamento.")
+        return
 
-    # 🔹 5. Enriquecimento com taxa de câmbio simulada
-    taxas = {
-        'USA': 5.0, 'France': 5.3, 'Germany': 5.4, 'UK': 6.2,
-        'Japan': 0.035, 'Canada': 3.8, 'Australia': 3.2, 'Spain': 5.1
-    }
-    df['taxa_cambio'] = df['country'].str.strip().map(taxas)
-    df['credito_brl'] = df['valor_cliente'] * df['taxa_cambio']
+    for trusted_key in pendentes:
+        print(f"🔍 Refinando: {trusted_key}")
+        obj = s3_client.get_object(Bucket=BUCKET, Key=trusted_key)
+        df = pd.read_parquet(io.BytesIO(obj['Body'].read()))
 
-    # 🔹 6. Curadoria final
-    df_refinada = df[
-        ['customerNumber', 'nome_completo', 'country', 'state', 'valor_cliente',
-         'faixa_credito', 'credito_brl']
-    ]
+        # 🔹 3. Preenchimento de dados faltantes
+        df['creditLimit'] = df['creditLimit'].fillna(0)
+        df['state'] = df['state'].replace('', pd.NA)
+        df['state'] = df['state'].fillna('N/A')
+        df['salesRepEmployeeNumber'] = df['salesRepEmployeeNumber'].fillna(0)
 
-    # 🔹 7. Exportar para zona refinada
-    buffer = io.BytesIO()
-    df_refinada.to_parquet(buffer, index=False)
+        # 🔹 4. Colunas derivadas
+        df['nome_completo'] = df['contactFirstName'].str.strip() + ' ' + df['contactLastName'].str.strip()
+        df['valor_cliente'] = df['creditLimit']
 
-    s3_client.put_object(
-        Bucket=BUCKET,
-        Key=REFINED_KEY,
-        Body=buffer.getvalue()
-    )
+        # 🔹 5. Segmentação por faixa de crédito
+        df['faixa_credito'] = pd.cut(
+            df['valor_cliente'],
+            bins=[-1, 50000, 100000, 150000, float('inf')],
+            labels=['Baixo', 'Médio', 'Alto', 'Premium']
+        )
 
-    print(f"✅ Dados refinados salvos em: {REFINED_KEY}")
+        # 🔹 6. Enriquecimento com taxa de câmbio simulada
+        taxas = {
+            'USA': 5.0, 'France': 5.3, 'Germany': 5.4, 'UK': 6.2,
+            'Japan': 0.035, 'Canada': 3.8, 'Australia': 3.2, 'Spain': 5.1
+        }
+        df['taxa_cambio'] = df['country'].str.strip().map(taxas)
+        df['credito_brl'] = df['valor_cliente'] * df['taxa_cambio']
+
+        # 🔹 7. Curadoria final
+        df_refinada = df[
+            ['customerNumber', 'nome_completo', 'country', 'state', 'valor_cliente',
+             'faixa_credito', 'credito_brl']
+        ]
+
+        # 🔹 8. Exportar para zona refined
+        buffer = io.BytesIO()
+        df_refinada.to_parquet(buffer, index=False)
+
+        refined_key = trusted_key.replace('trusted', 'refined')
+        s3_client.put_object(
+            Bucket=BUCKET,
+            Key=refined_key,
+            Body=buffer.getvalue()
+        )
+
+        print(f"✅ Refinado e salvo: {refined_key}")
 
 # ====================================================================
 # DEFINIÇÃO DA DAG

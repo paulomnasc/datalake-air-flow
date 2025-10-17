@@ -38,6 +38,8 @@ def tratar_e_mover():
         csv_obj = s3_client.get_object(Bucket=BUCKET, Key=key)
         csv_data = csv_obj['Body'].read().decode('utf-8')
         df = pd.read_csv(io.StringIO(csv_data))
+        df = pd.read_csv(io.StringIO(csv_data))
+        print(f"📊 Registros lidos de {key}: {df.shape}")
 
         # Tratamento simples: padronização de colunas e remoção de duplicatas
         df.columns = [col.strip().lower() for col in df.columns]
