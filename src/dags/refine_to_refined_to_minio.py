@@ -39,13 +39,13 @@ def refinar_customers():
         df = pd.read_parquet(io.BytesIO(obj['Body'].read()))
 
         # 🔹 3. Preenchimento de dados faltantes
-        df['creditLimit'] = df['creditLimit'].fillna(0)
+        df['creditLimit'] = df['creditlimit'].fillna(0)
         df['state'] = df['state'].replace('', pd.NA)
         df['state'] = df['state'].fillna('N/A')
-        df['salesRepEmployeeNumber'] = df['salesRepEmployeeNumber'].fillna(0)
+        df['salesrepemployeenumber'] = df['salesrepemployeenumber'].fillna(0)
 
         # 🔹 4. Colunas derivadas
-        df['nome_completo'] = df['contactFirstName'].str.strip() + ' ' + df['contactLastName'].str.strip()
+        df['nome_completo'] = df['contactfirstname'].str.strip() + ' ' + df['contactlastname'].str.strip()
         df['valor_cliente'] = df['creditLimit']
 
         # 🔹 5. Segmentação por faixa de crédito
@@ -65,7 +65,7 @@ def refinar_customers():
 
         # 🔹 7. Curadoria final
         df_refinada = df[
-            ['customerNumber', 'nome_completo', 'country', 'state', 'valor_cliente',
+            ['customernumber', 'nome_completo', 'country', 'state', 'valor_cliente',
              'faixa_credito', 'credito_brl']
         ]
 
