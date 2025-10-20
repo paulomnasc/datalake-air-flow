@@ -78,6 +78,14 @@ services:
     networks:
       - airflow_net
 
+  spark:
+    build:
+      context: .
+      dockerfile: Dockerfile.spark
+    volumes:
+      - ./spark-apps:/opt/spark-apps
+      - ./jars:/opt/spark/jars
+
 networks:
   airflow_net:
     driver: bridge

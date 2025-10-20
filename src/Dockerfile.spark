@@ -1,0 +1,10 @@
+FROM apache/spark:3.4.1
+
+USER root
+
+RUN apt-get update && apt-get install -y python3 python3-pip
+RUN pip3 install boto3
+
+COPY jars/*.jar /opt/spark/jars/
+COPY spark-apps /opt/spark-apps/
+WORKDIR /opt/spark-apps
