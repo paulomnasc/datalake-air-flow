@@ -2,6 +2,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, current_date
 import boto3
 
+
 # Inicializa a sessão Spark com suporte ao Delta Lake
 spark = SparkSession.builder \
     .appName("IngestaoDeltaClientes") \

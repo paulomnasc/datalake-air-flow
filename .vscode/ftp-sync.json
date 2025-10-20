@@ -1,0 +1,38 @@
+{
+    "remotePath": "./public_html",
+    "host": "ftp.smarttables.x10.mx",
+    "username": "paulomnasc@smarttables.x10.mx",
+    "password": "kJ#212394",
+    "port": 21,
+    "secure": false,
+    "protocol": "ftp",
+    "uploadOnSave": false,
+    "passive": false,
+    "debug": false,
+    "privateKeyPath": null,
+    "passphrase": null,
+    "agent": null,
+    "allow": [],
+    "ignore": [
+        "\\.vscode",
+        "\\.git",
+        "\\.DS_Store",
+        "\\.log",
+        "\\.env",
+        "\\.log$",
+        "\\.json$",
+        "\\.crt$",
+        "\\.key$",
+        "\\.txt$",
+        "\\temp",
+        "\\build",
+        "\\writable",
+        "\\uploads"
+    ],
+    "generatedFiles": {
+        "extensionsToInclude": [
+            ""
+        ],
+        "path": ""
+    }
+}

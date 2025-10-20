@@ -1,6 +1,33 @@
 {
-  "python.analysis.diagnosticSeverityOverrides": {
-    "reportMissingImports": "none"
-  },
-  "python.defaultInterpreterPath": "python3"
+  "deploy.reloaded": {
+    "packages": [
+      {
+        "name": "Version 2.3.4",
+        "description": "Package version 2.3.4",
+        "files": [
+          "**/*.yml",
+          "**/*.py",
+          "/.env"
+        ],
+        "exclude": [
+          "tests/**",
+          ".gitignore"
+        ],
+        "deployOnSave": false,
+        "targets": ["FTP oracleLinux"]
+      }
+    ],
+    "targets": [
+      {
+        "name": "FTP oracleLinux",
+        "type": "sftp",
+        "host": "137.131.212.68",
+        "port": 22,
+        "user": "opc",
+        "privateKey": "G:/Meu Drive/MEU TRABALHO/MGI/Capacitacoes/Airflow-minio/host_private_key/ssh-key-2025-10-13.key",
+        "passphrase": null,  // se sua chave tiver senha, coloque aqui
+        "dir": "/datalake-air-flow/"
+      }
+    ]
+  }
 }
